@@ -1,1 +1,1 @@
-amixon-install
+### ams.project Installation 
