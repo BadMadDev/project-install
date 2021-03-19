@@ -1,0 +1,13 @@
+{
+    "version": "1.0",
+    "repos" : [{
+      "include_branch_name" : false,
+      "name" : "test",
+      "url" : "file:///repo/.git",
+      "branches" : ["master"],
+      "hooks": [{
+        "type" : "polling",
+        "interval" : "1"
+      }]
+    }]
+  }

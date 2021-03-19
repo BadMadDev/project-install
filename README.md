@@ -1,1 +1,1 @@
-project-install
+amixon-install
