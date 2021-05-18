@@ -56,20 +56,13 @@ services:
 
   identity-api:
     image: ${REGISTRY:-amssolution}/identityaccess.identityserver:${PLATFORM:-linux}-${TAG:-latest}
-    depends_on:
-      - sqldata
          
   adminportal:
     image: ${REGISTRY:-amssolution}/identityaccess.adminportal:${PLATFORM:-linux}-${TAG:-latest}
-    depends_on:
-      - sqldata
 
   identityaccess-clienthub:
     image: ${REGISTRY:-amssolution}/identityaccess.clienthub:${PLATFORM:-linux}-${TAG:-latest}
-    depends_on:
-      - sqldata
             
   identityaccess-emailsender:
     image: ${REGISTRY:-amssolution}/identityaccess.emailsender:${PLATFORM:-linux}-${TAG:-latest}
-    depends_on:
-      - sqldata
+
