@@ -1,0 +1,82 @@
+version: '3.4'
+
+services:
+  #infra
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2019-latest 
+
+  #it-ops
+  healthmonitor:
+      image: ${REGISTRY:-amssolution}/itops.healthmonitor:${PLATFORM:-linux}-${TAG:-latest}
+
+  #project management
+  projectmanagement-api:
+    image: amssolution/projectmanagement.api:${PLATFORM:-linux}-${TAG:-latest}
+
+  projectmanagement:
+    image: ${REGISTRY:-amssolution}/projectmanagement:${PLATFORM:-linux}-${TAG:-latest}
+
+  projectmanagement-readmodelgenerator:
+    image: ${REGISTRY:-amssolution}/projectmanagement.readmodelgenerator:${PLATFORM:-linux}-${TAG:-latest}
+
+  #collaboration
+  collaboration-api:
+    image: amssolution/collaboration.api:${PLATFORM:-linux}-${TAG:-latest}
+
+  #accounting
+  accounting-api:
+    image: amssolution/accounting.api:${PLATFORM:-linux}-${TAG:-latest}
+
+  projecttracking-clienthub:
+    image: ${REGISTRY:-amssolution}/projecttracking.clienthub:${PLATFORM:-linux}-${TAG:-latest}
+
+  accounting-capacitydispatcher:
+    image: ${REGISTRY:-amssolution}/accounting.resourcecapacitydispatcher:${PLATFORM:-linux}-${TAG:-latest}
+
+  accounting-integration:
+    image: ${REGISTRY:-amssolution}/accounting.integration:${PLATFORM:-linux}-${TAG:-latest}
+
+  #sales orders
+  salesorders-api:
+    image: ${REGISTRY:-amssolution}/salesorders.api:${PLATFORM:-linux}-${TAG:-latest}
+
+  salesorders-integration:
+    image: ${REGISTRY:-amssolution}/salesorders.integration:${PLATFORM:-linux}-${TAG:-latest}
+
+  salesorders:
+    image: ${REGISTRY:-amssolution}/salesorders:${PLATFORM:-linux}-${TAG:-latest}
+
+  #capacityutilization-api:
+  #  image: amssolution/planning.capacityutilization.api:${PLATFORM:-linux}-${TAG:-latest}
+    
+  #reporting-api:
+  #  image: amssolution/planning.reporting.api:${PLATFORM:-linux}-${TAG:-latest}
+
+  desktopprojectplanningcomposition:
+    image: ${REGISTRY:-amssolution}/desktop.projectplanning.compositiongateway:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: ApiGateways/Desktop.Bff.ProjectPlanning/CompositionGateway/Dockerfile
+
+  desktopschedulingapigw:
+    image: envoyproxy/envoy:v1.11.1
+
+  identity-api:
+    image: ${REGISTRY:-amssolution}/identityaccess.identityserver:${PLATFORM:-linux}-${TAG:-latest}
+    depends_on:
+      - sqldata
+         
+  adminportal:
+    image: ${REGISTRY:-amssolution}/identityaccess.adminportal:${PLATFORM:-linux}-${TAG:-latest}
+    depends_on:
+      - sqldata
+
+  identityaccess-clienthub:
+    image: ${REGISTRY:-amssolution}/identityaccess.clienthub:${PLATFORM:-linux}-${TAG:-latest}
+    depends_on:
+      - sqldata
+            
+  identityaccess-emailsender:
+    image: ${REGISTRY:-amssolution}/identityaccess.emailsender:${PLATFORM:-linux}-${TAG:-latest}
+    depends_on:
+      - sqldata
