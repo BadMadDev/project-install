@@ -1,6 +1,13 @@
 version: '3.4'
 
 services:
+  #infra
+  # sqldata:
+  #   image: mcr.microsoft.com/mssql/server:2019-latest 
+    
+  eventstore:
+    image: eventstore/eventstore:release-5.0.8
+
   #it-ops
   healthmonitor:
       image: ${REGISTRY:-amssolution}/itops.healthmonitor:${PLATFORM:-linux}-${TAG:-latest}
@@ -48,12 +55,6 @@ services:
   #reporting-api:
   #  image: amssolution/planning.reporting.api:${PLATFORM:-linux}-${TAG:-latest}
 
-  desktopprojectplanningcomposition:
-    image: ${REGISTRY:-amssolution}/desktop.projectplanning.compositiongateway:${PLATFORM:-linux}-${TAG:-latest}
-
-  desktopschedulingapigw:
-    image: envoyproxy/envoy:v1.11.1
-
   identity-api:
     image: ${REGISTRY:-amssolution}/identityaccess.identityserver:${PLATFORM:-linux}-${TAG:-latest}
          
@@ -66,3 +67,18 @@ services:
   identityaccess-emailsender:
     image: ${REGISTRY:-amssolution}/identityaccess.emailsender:${PLATFORM:-linux}-${TAG:-latest}
 
+  #bff
+  desktopschedulingapigw:
+    image: envoyproxy/envoy:v1.11.1
+
+  desktopprojectplanningcomposition:
+    image: ${REGISTRY:-amssolution}/desktop.projectplanning.compositiongateway:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: ApiGateways/Desktop.Bff.ProjectPlanning/CompositionGateway/Dockerfile
+
+  clienthub:
+    image: ${REGISTRY:-amssolution}/itops.clienthub:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: ApiGateways/Desktop.Bff.ProjectPlanning/ClientHub/Dockerfile

@@ -1,6 +1,31 @@
 version: '3.4'
 
 services:
+  #infra
+  # sqldata:
+  #   ports:
+  #     - "5433:1433"
+  #   volumes:
+  #     - project-sqldata:/var/opt/mssql
+  #   environment:
+  #     - SA_PASSWORD=Pass@word
+  #     - ACCEPT_EULA=Y
+    
+  eventstore:
+    image: eventstore/eventstore:release-5.0.8
+    ports:
+      - "2113:2113"
+      - "1113:1113"
+    volumes: 
+      - type: volume
+        source: esdata
+        target: /var/lib/eventstore
+        read_only: false
+      - type: volume
+        source: eslog
+        target: /var/log/eventstore
+        read_only: false      
+
   #it-ops
   healthmonitor:
     ports:
@@ -39,6 +64,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+      - ConnectionStrings__EventStore=${EVENTSTORE_DB:-tcp://admin:changeit@eventstore:1113}
 
   #collaboration
   collaboration-api:
@@ -107,41 +133,6 @@ services:
      - ASPNETCORE_URLS=http://0.0.0.0:80    
      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
 
-  #capacityutilization-api:
-  #  ports:
-  #    - "7606:80"
-  #  environment:
-  #    - ASPNETCORE_ENVIRONMENT=Development
-  #    - ASPNETCORE_URLS=http://0.0.0.0:80    
-  #    - ENVIRONMENT_NAME=${ENVIRONMENT_NAME}
-  #    - CONSUL_URL=${CONSUL_URL}      
-
-  #reporting-api:
-  #  ports:
-  #    - "7608:80"
-  #  environment:
-  #    - ASPNETCORE_ENVIRONMENT=Development
-  #    - ASPNETCORE_URLS=http://0.0.0.0:80    
-  #    - ENVIRONMENT_NAME=${ENVIRONMENT_NAME}
-  #    - CONSUL_URL=${CONSUL_URL}      
-
-  desktopprojectplanningcomposition:
-    ports:
-      - "7701:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - Urls__ProjectManagement=http://projectmanagement-api
-      - Urls__SalesOrders=http://salesorders-api 
-  
-  desktopschedulingapigw:
-    volumes:
-      - ./ApiGateways/Envoy/config/desktopscheduling:/etc/envoy
-    ports:
-      - "5200:80"
-      - "15200:8001"
-      - "10000:10000"
-
   identity-api:
     ports:
       - "7614:80"
@@ -185,4 +176,35 @@ services:
       - EmailSettings__Sender=${MAIL_SENDER}
       - EmailSettings__Password=${MAIL_PASSWORD}
       - EmailSettings__IsAuthenticationRequired=${MAIL_IS_AUTHENTICATION_REQUIRED}
-      
+
+  #bff
+  desktopprojectplanningcomposition:
+    ports:
+      - "7701:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80    
+      - Urls__ProjectManagement=http://projectmanagement-api
+      - Urls__SalesOrders=http://salesorders-api 
+  
+  desktopschedulingapigw:
+    volumes:
+      - ./ApiGateways/Envoy/config/desktopscheduling:/etc/envoy
+    ports:
+      - "5200:80"
+      - "15200:8001"
+      - "10000:10000"
+
+  clienthub:
+    ports:
+      - "7800:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80    
+      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+            
+volumes:
+  project-sqldata:
+    external: false
+  esdata:
+  eslog:    
