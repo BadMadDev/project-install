@@ -73,12 +73,6 @@ services:
 
   desktopprojectplanningcomposition:
     image: ${REGISTRY:-amssolution}/desktop.projectplanning.compositiongateway:${PLATFORM:-linux}-${TAG:-latest}
-    build:
-      context: .
-      dockerfile: ApiGateways/Desktop.Bff.ProjectPlanning/CompositionGateway/Dockerfile
 
   clienthub:
     image: ${REGISTRY:-amssolution}/itops.clienthub:${PLATFORM:-linux}-${TAG:-latest}
-    build:
-      context: .
-      dockerfile: ApiGateways/Desktop.Bff.ProjectPlanning/ClientHub/Dockerfile
