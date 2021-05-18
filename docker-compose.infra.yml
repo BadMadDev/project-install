@@ -1,8 +1,5 @@
 version: '3.4'
 
-services:
-  sqldata:
-    image: mcr.microsoft.com/mssql/server:2019-latest 
-    
-  project.eventstore:
+services:   
+  eventstore:
     image: eventstore/eventstore:release-5.0.8

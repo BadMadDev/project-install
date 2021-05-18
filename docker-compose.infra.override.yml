@@ -10,7 +10,7 @@ services:
         source: esdata
         target: /var/lib/eventstore
         read_only: false
-        - type: volume
+      - type: volume
         source: eslog
         target: /var/log/eventstore
         read_only: false      
