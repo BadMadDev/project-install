@@ -1,16 +1,6 @@
 version: '3.4'
 
 services:
-  #infra
-  sqldata:
-    ports:
-      - "5433:1433"
-    volumes:
-      - project-sqldata:/var/opt/mssql
-    environment:
-      - SA_PASSWORD=Pass@word
-      - ACCEPT_EULA=Y
-
   #it-ops
   healthmonitor:
     ports:
@@ -196,6 +186,3 @@ services:
       - EmailSettings__Password=${MAIL_PASSWORD}
       - EmailSettings__IsAuthenticationRequired=${MAIL_IS_AUTHENTICATION_REQUIRED}
       
-volumes:
-  project-sqldata:
-    external: false
