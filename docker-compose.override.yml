@@ -256,7 +256,7 @@ services:
   
   desktopschedulingapigw:
     volumes:
-      - ./ApiGateways/Envoy/config/desktopscheduling:/etc/envoy
+      - ./Envoy/config/desktopscheduling:/etc/envoy
     ports:
       - "5200:80"
       - "15200:8001"
