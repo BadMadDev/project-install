@@ -1,16 +1,22 @@
 version: '3.4'
 
-services:
-  #infra
-  # sqldata:
-  #   image: mcr.microsoft.com/mssql/server:2019-latest 
-    
+services:   
   eventstore:
     image: eventstore/eventstore:release-5.0.8
 
   #it-ops
   healthmonitor:
       image: ${REGISTRY:-amssolution}/itops.healthmonitor:${PLATFORM:-linux}-${TAG:-latest}
+
+  # authorization
+  policyserver:
+    image: ${REGISTRY:-amssolution}/policyserver:${PLATFORM:-linux}-${TAG:-latest}
+
+  policyserver-manager-api:
+     image: ${REGISTRY:-amssolution}/policyserver.manager.api:${PLATFORM:-linux}-${TAG:-latest}
+        
+  policyserver-manager-userselector-api:
+    image: ${REGISTRY:-amssolution}/policyserver.manager.userselector.api:${PLATFORM:-linux}-${TAG:-latest}  
 
   #project management
   projectmanagement-api:
@@ -33,8 +39,8 @@ services:
   projecttracking-clienthub:
     image: ${REGISTRY:-amssolution}/projecttracking.clienthub:${PLATFORM:-linux}-${TAG:-latest}
 
-  accounting-capacitydispatcher:
-    image: ${REGISTRY:-amssolution}/accounting.resourcecapacitydispatcher:${PLATFORM:-linux}-${TAG:-latest}
+  #accounting-capacitydispatcher:
+  #  image: ${REGISTRY:-amssolution}/accounting.resourcecapacitydispatcher:${PLATFORM:-linux}-${TAG:-latest}
 
   accounting-integration:
     image: ${REGISTRY:-amssolution}/accounting.integration:${PLATFORM:-linux}-${TAG:-latest}
@@ -52,9 +58,14 @@ services:
   #capacityutilization-api:
   #  image: amssolution/planning.capacityutilization.api:${PLATFORM:-linux}-${TAG:-latest}
     
-  #reporting-api:
-  #  image: amssolution/planning.reporting.api:${PLATFORM:-linux}-${TAG:-latest}
+  #reporting (multiproject)
+  planning-reporting-api:
+     image: ${REGISTRY:-amssolution}/scheduling.reporting.api:${PLATFORM:-linux}-${TAG:-latest}
+     
+  planning-reporting-clienthub:
+      image: ${REGISTRY:-amssolution}/scheduling.reporting.clienthub:${PLATFORM:-linux}-${TAG:-latest}
 
+  #identity access
   identity-api:
     image: ${REGISTRY:-amssolution}/identityaccess.identityserver:${PLATFORM:-linux}-${TAG:-latest}
          
@@ -73,6 +84,12 @@ services:
 
   desktopprojectplanningcomposition:
     image: ${REGISTRY:-amssolution}/desktop.projectplanning.compositiongateway:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: ApiGateways/Desktop.Bff.ProjectPlanning/CompositionGateway/Dockerfile
 
   clienthub:
     image: ${REGISTRY:-amssolution}/itops.clienthub:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: ApiGateways/Desktop.Bff.ProjectPlanning/ClientHub/Dockerfile

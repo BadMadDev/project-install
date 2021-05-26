@@ -1,16 +1,6 @@
 version: '3.4'
 
 services:
-  #infra
-  # sqldata:
-  #   ports:
-  #     - "5433:1433"
-  #   volumes:
-  #     - project-sqldata:/var/opt/mssql
-  #   environment:
-  #     - SA_PASSWORD=Pass@word
-  #     - ACCEPT_EULA=Y
-    
   eventstore:
     image: eventstore/eventstore:release-5.0.8
     ports:
@@ -41,6 +31,59 @@ services:
       - HealthChecksUI__HealthChecks__2__Uri=http://identityaccess-clienthub/hc
       - HealthChecksUI__HealthChecks__3__Name=Email sender health check
       - HealthChecksUI__HealthChecks__3__Uri=http://identityaccess-emailsender/hc
+      - HealthChecksUI__HealthChecks__4__Name=Collaboration health check
+      - HealthChecksUI__HealthChecks__4__Uri=http://collaboration-api/hc
+      - HealthChecksUI__HealthChecks__5__Name=Projectmanagement health check
+      - HealthChecksUI__HealthChecks__5__Uri=http://projectmanagement-api/hc
+      - HealthChecksUI__HealthChecks__6__Name=policyserver health check
+      - HealthChecksUI__HealthChecks__6__Uri=http://policyserver/hc
+      - HealthChecksUI__HealthChecks__7__Name=policyserver manager health check
+      - HealthChecksUI__HealthChecks__7__Uri=http://policyserver-manager-api/hc
+      - HealthChecksUI__HealthChecks__8__Name=policyserver-manager userselector health check
+      - HealthChecksUI__HealthChecks__8__Uri=http://policyserver-manager-userselector-api/hc
+      - HealthChecksUI__HealthChecks__9__Name=reporting health check
+      - HealthChecksUI__HealthChecks__9__Uri=http://planning-reporting-api/hc
+      - HealthChecksUI__HealthChecks__10__Name=reporting clienthub health check
+      - HealthChecksUI__HealthChecks__10__Uri=http://planning-reporting-clienthub/hc
+      - HealthChecksUI__HealthChecks__11__Name=accounting-api health check
+      - HealthChecksUI__HealthChecks__11__Uri=http://accounting-api/hc
+      - HealthChecksUI__HealthChecks__12__Name=accounting capacitydispatcher health check
+      - HealthChecksUI__HealthChecks__12__Uri=http://accounting-capacitydispatcher/hc
+      - HealthChecksUI__HealthChecks__13__Name=accounting integration health check
+      - HealthChecksUI__HealthChecks__13__Uri=http://accounting-integration/hc
+      - HealthChecksUI__HealthChecks__14__Name=salesorders-api health check
+      - HealthChecksUI__HealthChecks__14__Uri=http://salesorders-api/hc
+      - HealthChecksUI__HealthChecks__15__Name=salesorders-integration health check
+      - HealthChecksUI__HealthChecks__15__Uri=http://salesorders-integration/hc
+      - HealthChecksUI__HealthChecks__16__Name=salesorders health check
+      - HealthChecksUI__HealthChecks__16__Uri=http://salesorders/hc
+       #destkopclient bff
+      - HealthChecksUI__HealthChecks__101__Name=desktopprojectplanningcomposition health check
+      - HealthChecksUI__HealthChecks__101__Uri=http://desktopprojectplanningcomposition/hc
+      - HealthChecksUI__HealthChecks__102__Name=clienthub health check
+      - HealthChecksUI__HealthChecks__102__Uri=http://clienthub/hc
+
+  # authorization
+  policyserver:
+    ports:
+      - "7611:80"
+    environment:
+      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB:-Server=sqldata;Database=identity;User Id=sa;Password=Pass@word}
+       
+  policyserver-manager-api:
+    ports:
+      - "7612:80"
+    environment:
+      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}      
+      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB:-Server=sqldata;Database=identity;User Id=sa;Password=Pass@word}
+      - CultureCode=${CULTURE_CODE:-de-DE}
+      
+  policyserver-manager-userselector-api:
+    ports:
+      - "7613:80"
+    environment:
+      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB:-Server=sqldata;Database=identity;User Id=sa;Password=Pass@word}
 
   #project management
   projectmanagement-api:
@@ -49,7 +92,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - IdentityServerUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP:-localhost}:7614
+      - IdentityServerUrl=http://identity-api
       - ConnectionStrings__ProjectManagement=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
 
   projectmanagement:
@@ -92,13 +135,13 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
 
-  accounting-capacitydispatcher:
-    ports:
-      - "5004:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+  #accounting-capacitydispatcher:
+  #  ports:
+  #    - "5004:80"
+  #  environment:
+  #    - ASPNETCORE_ENVIRONMENT=Development
+  #    - ASPNETCORE_URLS=http://0.0.0.0:80    
+  #    - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
 
   accounting-integration:
     ports:
@@ -108,6 +151,7 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
 
+  #sales orders
   salesorders-api:
     ports:
       - "7605:80"
@@ -133,6 +177,24 @@ services:
      - ASPNETCORE_URLS=http://0.0.0.0:80    
      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
 
+  #reporting (multiproject)
+  planning-reporting-api:
+        ports:
+            - "7608:80"
+        environment:
+           - ASPNETCORE_ENVIRONMENT=Development
+           - ASPNETCORE_URLS=http://0.0.0.0:80
+           - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+
+  planning-reporting-clienthub:
+        ports:
+            - "7900:80"
+        environment:
+           - ASPNETCORE_ENVIRONMENT=Development
+           - ASPNETCORE_URLS=http://0.0.0.0:80
+           - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+
+  #identity access
   identity-api:
     ports:
       - "7614:80"
@@ -143,6 +205,11 @@ services:
       - CultureCode=${CULTURE_CODE:-de-DE}
       - IdentityServerUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:7614
       - AdminPortalUrl=http://adminportal
+    volumes:
+      - type: bind
+        source: ./profileImages
+        target: /app/wwwroot/picture
+        read_only: false
 
   adminportal:
     ports:
@@ -189,7 +256,7 @@ services:
   
   desktopschedulingapigw:
     volumes:
-      - ./Envoy/config/desktopscheduling:/etc/envoy
+      - ./ApiGateways/Envoy/config/desktopscheduling:/etc/envoy
     ports:
       - "5200:80"
       - "15200:8001"
@@ -204,7 +271,5 @@ services:
       - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
             
 volumes:
-  project-sqldata:
-    external: false
   esdata:
-  eslog:    
+  eslog:     
