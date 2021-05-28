@@ -39,8 +39,8 @@ services:
   projecttracking-clienthub:
     image: ${REGISTRY:-amssolution}/projecttracking.clienthub:${PLATFORM:-linux}-${TAG:-latest}
 
-  #accounting-capacitydispatcher:
-  #  image: ${REGISTRY:-amssolution}/accounting.resourcecapacitydispatcher:${PLATFORM:-linux}-${TAG:-latest}
+  accounting-capacitydispatcher:
+   image: ${REGISTRY:-amssolution}/accounting.resourcecapacitydispatcher:${PLATFORM:-linux}-${TAG:-latest}
 
   accounting-integration:
     image: ${REGISTRY:-amssolution}/accounting.integration:${PLATFORM:-linux}-${TAG:-latest}
