@@ -32,6 +32,15 @@ services:
   collaboration-api:
     image: amssolution/collaboration.api:${PLATFORM:-linux}-${TAG:-latest}
 
+  planning-capacityutilization-api:
+    image: ${REGISTRY:-amssolution}/planning.capacityutilization.api:${PLATFORM:-linux}-${TAG:-latest}
+  
+  planning-typecurve-api:
+    image: ${REGISTRY:-amssolution}/planning-typecurve-api:${PLATFORM:-linux}-${TAG:-latest}
+  
+  wage-data-api:
+    image: ${REGISTRY:-amssolution}/wage.data.api:${PLATFORM:-linux}-${TAG:-latest}
+  
   #accounting
   accounting-api:
     image: amssolution/accounting.api:${PLATFORM:-linux}-${TAG:-latest}

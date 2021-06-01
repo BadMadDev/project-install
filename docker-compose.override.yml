@@ -57,7 +57,13 @@ services:
       - HealthChecksUI__HealthChecks__15__Uri=http://salesorders-integration/hc
       - HealthChecksUI__HealthChecks__16__Name=salesorders health check
       - HealthChecksUI__HealthChecks__16__Uri=http://salesorders/hc
-       #destkopclient bff
+      - HealthChecksUI__HealthChecks__17__Name=planning-capacityutilization-api health check
+      - HealthChecksUI__HealthChecks__17__Uri=http://planning-capacityutilization-api/hc
+      - HealthChecksUI__HealthChecks__18__Name=planning-typecurve-api health check
+      - HealthChecksUI__HealthChecks__18__Uri=http://planning-typecurve-api/hc    
+      - HealthChecksUI__HealthChecks__19__Name=wage-data-api health check
+      - HealthChecksUI__HealthChecks__19__Uri=http://wage-data-api/hc   
+        #destkopclient bff
       - HealthChecksUI__HealthChecks__101__Name=desktopprojectplanningcomposition health check
       - HealthChecksUI__HealthChecks__101__Uri=http://desktopprojectplanningcomposition/hc
       - HealthChecksUI__HealthChecks__102__Name=clienthub health check
@@ -118,6 +124,30 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
   
+      planning-capacityutilization-api:
+        ports:
+          - "7606:80"
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+          - ASPNETCORE_URLS=http://0.0.0.0:80
+          - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+    
+      planning-typecurve-api:
+        ports:
+           - "7607:80"
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+          - ASPNETCORE_URLS=http://0.0.0.0:80
+          - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+    
+      wage-data-api:
+        ports:
+           - "7609:80"
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+          - ASPNETCORE_URLS=http://0.0.0.0:80
+          - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+    
   #accounting  
   accounting-api:
     ports:
