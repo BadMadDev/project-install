@@ -68,6 +68,20 @@ services:
       - HealthChecksUI__HealthChecks__101__Uri=http://desktopprojectplanningcomposition/hc
       - HealthChecksUI__HealthChecks__102__Name=clienthub health check
       - HealthChecksUI__HealthChecks__102__Uri=http://clienthub/hc
+  
+  # help
+  ams-help:
+    ports: 
+        - "8888:3030"
+    environment:
+        - NODE_ENV=production
+    volumes:
+        - type: volume
+          source: helpdata
+          target: /app/public/content
+          read_only: false
+    working_dir: /app
+    command: bash -c "cp -r /usr/share/app/content/ /app/public/ && npm start"
 
   # authorization
   policyserver:
@@ -303,3 +317,4 @@ services:
 volumes:
   esdata:
   eslog:     
+  helpdata:

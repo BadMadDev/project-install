@@ -6,9 +6,13 @@ services:
 
   #it-ops
   healthmonitor:
-      image: ${REGISTRY:-amssolution}/itops.healthmonitor:${PLATFORM:-linux}-${TAG:-latest}
+    image: ${REGISTRY:-amssolution}/itops.healthmonitor:${PLATFORM:-linux}-${TAG:-latest}
 
-  # authorization
+  #help
+  ams-help:
+    image: ${REGISTRY:-amssolution}/ams.help:${PLATFORM:-linux}-${TAG:-latest}
+
+  #authorization
   policyserver:
     image: ${REGISTRY:-amssolution}/policyserver:${PLATFORM:-linux}-${TAG:-latest}
 
