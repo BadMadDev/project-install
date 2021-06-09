@@ -238,6 +238,15 @@ services:
            - ASPNETCORE_URLS=http://0.0.0.0:80
            - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
 
+  #production planning
+  bom-api:
+    ports:
+      - "7618:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80    
+      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+
   #identity access
   identity-api:
     ports:
