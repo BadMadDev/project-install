@@ -88,22 +88,22 @@ services:
     ports:
       - "7611:80"
     environment:
-      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
-      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB:-Server=sqldata;Database=identity;User Id=sa;Password=Pass@word}
+      - ConnectionStrings__ams=${AMS_DB}
+      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
        
   policyserver-manager-api:
     ports:
       - "7612:80"
     environment:
-      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}      
-      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB:-Server=sqldata;Database=identity;User Id=sa;Password=Pass@word}
+      - ConnectionStrings__ams=${AMS_DB}
+      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
       - CultureCode=${CULTURE_CODE:-de-DE}
       
   policyserver-manager-userselector-api:
     ports:
       - "7613:80"
     environment:
-      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB:-Server=sqldata;Database=identity;User Id=sa;Password=Pass@word}
+      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
 
   #project management
   projectmanagement-api:
@@ -113,20 +113,20 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - IdentityServerUrl=http://identity-api
-      - ConnectionStrings__ProjectManagement=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+      - ConnectionStrings__ProjectManagement=${AMS_DB}
 
   projectmanagement:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+      - ConnectionStrings__ams=${AMS_DB}
       - CultureCode=${CULTURE_CODE:-de-DE}
 
   projectmanagement-readmodelgenerator:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+      - ConnectionStrings__ams=${AMS_DB}
       - ConnectionStrings__EventStore=${EVENTSTORE_DB:-tcp://admin:changeit@eventstore:1113}
 
   #collaboration
@@ -136,7 +136,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+      - ConnectionStrings__ams=${AMS_DB}
   
   planning-capacityutilization-api:
     ports:
@@ -144,7 +144,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+      - ConnectionStrings__ams=${AMS_DB}
     
   planning-typecurve-api:
     ports:
@@ -152,7 +152,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+      - ConnectionStrings__ams=${AMS_DB}
     
   wage-data-api:
     ports:
@@ -160,7 +160,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+      - ConnectionStrings__ams=${AMS_DB}
     
   #accounting  
   accounting-api:
@@ -169,7 +169,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+      - ConnectionStrings__ams=${AMS_DB}
 
   projecttracking-clienthub:
     ports:
@@ -177,7 +177,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+      - ConnectionStrings__ams=${AMS_DB}
 
   accounting-capacitydispatcher:
    ports:
@@ -185,7 +185,7 @@ services:
    environment:
      - ASPNETCORE_ENVIRONMENT=Development
      - ASPNETCORE_URLS=http://0.0.0.0:80    
-     - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+     - ConnectionStrings__ams=${AMS_DB}
 
   accounting-integration:
     ports:
@@ -193,7 +193,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+      - ConnectionStrings__ams=${AMS_DB}
 
   #sales orders
   salesorders-api:
@@ -202,7 +202,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+      - ConnectionStrings__ams=${AMS_DB}
 
   salesorders-integration:
    ports:
@@ -210,7 +210,7 @@ services:
    environment:
      - ASPNETCORE_ENVIRONMENT=Development
      - ASPNETCORE_URLS=http://0.0.0.0:80    
-     - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+     - ConnectionStrings__ams=${AMS_DB}
      - CultureCode=${CULTURE_CODE:-de-DE}
 
   salesorders:
@@ -219,7 +219,7 @@ services:
    environment:
      - ASPNETCORE_ENVIRONMENT=Development
      - ASPNETCORE_URLS=http://0.0.0.0:80    
-     - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+     - ConnectionStrings__ams=${AMS_DB}
 
   #reporting (multiproject)
   planning-reporting-api:
@@ -228,7 +228,7 @@ services:
         environment:
            - ASPNETCORE_ENVIRONMENT=Development
            - ASPNETCORE_URLS=http://0.0.0.0:80
-           - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+           - ConnectionStrings__ams=${AMS_DB}
 
   planning-reporting-clienthub:
         ports:
@@ -236,7 +236,7 @@ services:
         environment:
            - ASPNETCORE_ENVIRONMENT=Development
            - ASPNETCORE_URLS=http://0.0.0.0:80
-           - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+           - ConnectionStrings__ams=${AMS_DB}
 
   #production planning
   bom-api:
@@ -245,7 +245,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+      - ConnectionStrings__ams=${AMS_DB}
 
   #identity access
   identity-api:
@@ -254,7 +254,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB:-Server=sqldata;Database=identity;User Id=sa;Password=Pass@word}
+      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
       - CultureCode=${CULTURE_CODE:-de-DE}
       - IdentityServerUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:7614
       - AdminPortalUrl=http://adminportal
@@ -270,7 +270,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80 
-      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB:-Server=sqldata;Database=identity;User Id=sa;Password=Pass@word}
+      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
       - CultureCode=${CULTURE_CODE:-de-DE}
       - IdentityServerUrl=http://identity-api                  
 
@@ -280,7 +280,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB:-Server=sqldata;Database=identity;User Id=sa;Password=Pass@word}
+      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
             
   identityaccess-emailsender:
     ports:
@@ -288,7 +288,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB:-Server=sqldata;Database=identity;User Id=sa;Password=Pass@word}
+      - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
       - CultureCode=${CULTURE_CODE} 
       - EmailSettings__MailServer=${MAIL_SERVER}
       - EmailSettings__Port=${MAIL_PORT}
@@ -321,7 +321,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+      - ConnectionStrings__ams=${AMS_DB}
             
 volumes:
   esdata:
