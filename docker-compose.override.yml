@@ -1,6 +1,7 @@
 version: '3.4'
 
 services:
+  #data
   eventstore:
     image: eventstore/eventstore:release-5.0.8
     ports:
