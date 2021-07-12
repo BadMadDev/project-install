@@ -1,6 +1,20 @@
 version: '3.4'
 
 services:    
+
+  # Logging
+  elasticsearch:
+    build:
+      context: elk/elasticsearch/
+
+  logstash:
+    build:
+      context: elk/logstash/
+
+  kibana:
+    build:
+      context: elk/kibana/
+
   #data
   eventstore:
     image: eventstore/eventstore:release-5.0.8
@@ -93,7 +107,7 @@ services:
   identityaccess-emailsender:
     image: ${REGISTRY:-amssolution}/identityaccess.emailsender:${PLATFORM:-linux}-${TAG:-latest}
 
-  #bff
+  ##bff
   desktopschedulingapigw:
     image: envoyproxy/envoy:v1.11.1
 

@@ -1,6 +1,41 @@
 version: '3.4'
 
 services:
+ 
+  # Logging
+  elasticsearch:
+    restart: always
+    volumes:
+      - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - type: volume
+        source: elasticsearch-data
+        target: /usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+
+  logstash:
+    restart: always
+    volumes:
+      - ./elk/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./elk/logstash/pipeline:/usr/share/logstash/pipeline:ro
+    ports:
+      - "8080:8080"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    restart: always
+    volumes:
+      - ./elk/kibana/config/:/usr/share/kibana/config:ro
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
   #data
   eventstore:
     restart: always
@@ -65,6 +100,8 @@ services:
       - HealthChecksUI__HealthChecks__18__Uri=http://planning-typecurve-api/hc    
       - HealthChecksUI__HealthChecks__19__Name=wage-data-api health check
       - HealthChecksUI__HealthChecks__19__Uri=http://wage-data-api/hc   
+      - HealthChecksUI__HealthChecks__20__Name=bill of material health check
+      - HealthChecksUI__HealthChecks__20__Uri=http://bom-api/hc  
         #destkopclient bff
       - HealthChecksUI__HealthChecks__101__Name=desktopprojectplanningcomposition health check
       - HealthChecksUI__HealthChecks__101__Uri=http://desktopprojectplanningcomposition/hc
@@ -300,6 +337,7 @@ services:
       - IdentityServerUrl=http://identity-api                  
 
   identityaccess-clienthub:
+    restart: always
     ports:
       - "7616:80"
     environment:
@@ -356,3 +394,4 @@ volumes:
   esdata:
   eslog:     
   helpdata:
+  elasticsearch-data:
