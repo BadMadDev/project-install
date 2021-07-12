@@ -107,6 +107,20 @@ static_resources:
                   auto_host_rewrite: true
                   prefix_rewrite: "/"
                   cluster: reporting
+              - name: "w-short"
+                match:
+                  prefix: "/w/"
+                route:
+                  auto_host_rewrite: true
+                  prefix_rewrite: "/"
+                  cluster: wage
+              - name: "w-long"
+                match:
+                  prefix: "/wage-api/"
+                route:
+                  auto_host_rewrite: true
+                  prefix_rewrite: "/"
+                  cluster: wage                  
           http_filters:
           - name: envoy.router
           access_log:
@@ -198,7 +212,7 @@ static_resources:
     lb_policy: round_robin
     hosts:
     - socket_address:
-        address: wage-api
+        address: wage-data-api
         port_value: 80
   - name: eventstore
     connect_timeout: 0.25s
