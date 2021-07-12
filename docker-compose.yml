@@ -44,7 +44,7 @@ services:
     image: ${REGISTRY:-amssolution}/planning-typecurve-api:${PLATFORM:-linux}-${TAG:-latest}
   
   wage-data-api:
-    image: ${REGISTRY:-amssolution}/wage.data.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: ${REGISTRY:-amssolution}/wage.data.api:${PLATFORM:-linux}-${TAG:-latest}-erp${ERP_MAIN_VERSION}
   
   #accounting
   accounting-api:
@@ -68,10 +68,7 @@ services:
 
   salesorders:
     image: ${REGISTRY:-amssolution}/salesorders:${PLATFORM:-linux}-${TAG:-latest}
-
-  #capacityutilization-api:
-  #  image: amssolution/planning.capacityutilization.api:${PLATFORM:-linux}-${TAG:-latest}
-    
+   
   #reporting (multiproject)
   planning-reporting-api:
      image: ${REGISTRY:-amssolution}/scheduling.reporting.api:${PLATFORM:-linux}-${TAG:-latest}
