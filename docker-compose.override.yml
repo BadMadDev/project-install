@@ -3,7 +3,7 @@ version: '3.4'
 services:
   #data
   eventstore:
-    image: eventstore/eventstore:release-5.0.8
+    restart: always
     ports:
       - "2113:2113"
       - "1113:1113"
@@ -19,6 +19,7 @@ services:
 
   #it-ops
   healthmonitor:
+    restart: always
     ports:
       - "5100:80"
     environment:
@@ -72,6 +73,7 @@ services:
   
   # help
   ams-help:
+    restart: always
     ports: 
         - "8888:3030"
     environment:
@@ -86,6 +88,7 @@ services:
 
   # authorization
   policyserver:
+    restart: always
     ports:
       - "7611:80"
     environment:
@@ -93,6 +96,7 @@ services:
       - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
        
   policyserver-manager-api:
+    restart: always
     ports:
       - "7612:80"
     environment:
@@ -101,6 +105,7 @@ services:
       - CultureCode=${CULTURE_CODE:-de-DE}
       
   policyserver-manager-userselector-api:
+    restart: always
     ports:
       - "7613:80"
     environment:
@@ -108,6 +113,7 @@ services:
 
   #project management
   projectmanagement-api:
+    restart: always
     ports:
       - "7601:80"
     environment:
@@ -117,6 +123,7 @@ services:
       - ConnectionStrings__ProjectManagement=${AMS_DB}
 
   projectmanagement:
+    restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
@@ -124,6 +131,7 @@ services:
       - CultureCode=${CULTURE_CODE:-de-DE}
 
   projectmanagement-readmodelgenerator:
+    restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
@@ -132,6 +140,7 @@ services:
 
   #collaboration
   collaboration-api:
+    restart: always
     ports:
       - "7602:80"
     environment:
@@ -140,6 +149,7 @@ services:
       - ConnectionStrings__ams=${AMS_DB}
   
   planning-capacityutilization-api:
+    restart: always
     ports:
       - "7606:80"
     environment:
@@ -148,6 +158,7 @@ services:
       - ConnectionStrings__ams=${AMS_DB}
     
   planning-typecurve-api:
+    restart: always
     ports:
       - "7607:80"
     environment:
@@ -156,6 +167,7 @@ services:
       - ConnectionStrings__ams=${AMS_DB}
     
   wage-data-api:
+    restart: always
     ports:
       - "7609:80"
     environment:
@@ -165,6 +177,7 @@ services:
     
   #accounting  
   accounting-api:
+    restart: always
     ports:
       - "7603:80"
     environment:
@@ -173,6 +186,7 @@ services:
       - ConnectionStrings__ams=${AMS_DB}
 
   projecttracking-clienthub:
+    restart: always
     ports:
       - "7604:80"
     environment:
@@ -181,6 +195,7 @@ services:
       - ConnectionStrings__ams=${AMS_DB}
 
   accounting-capacitydispatcher:
+   restart: always
    ports:
      - "5004:80"
    environment:
@@ -189,6 +204,7 @@ services:
      - ConnectionStrings__ams=${AMS_DB}
 
   accounting-integration:
+    restart: always
     ports:
       - "5005:80"
     environment:
@@ -198,6 +214,7 @@ services:
 
   #sales orders
   salesorders-api:
+    restart: always
     ports:
       - "7605:80"
     environment:
@@ -206,41 +223,46 @@ services:
       - ConnectionStrings__ams=${AMS_DB}
 
   salesorders-integration:
-   ports:
-     - "5003:80"
-   environment:
-     - ASPNETCORE_ENVIRONMENT=Development
-     - ASPNETCORE_URLS=http://0.0.0.0:80    
-     - ConnectionStrings__ams=${AMS_DB}
-     - CultureCode=${CULTURE_CODE:-de-DE}
+    restart: always
+    ports:
+      - "5003:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80    
+      - ConnectionStrings__ams=${AMS_DB}
+      - CultureCode=${CULTURE_CODE:-de-DE}
 
   salesorders:
-   ports:
-     - "5002:80"
-   environment:
-     - ASPNETCORE_ENVIRONMENT=Development
-     - ASPNETCORE_URLS=http://0.0.0.0:80    
-     - ConnectionStrings__ams=${AMS_DB}
+    restart: always
+    ports:
+      - "5002:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80    
+      - ConnectionStrings__ams=${AMS_DB}
 
   #reporting (multiproject)
   planning-reporting-api:
-        ports:
-            - "7608:80"
-        environment:
-           - ASPNETCORE_ENVIRONMENT=Development
-           - ASPNETCORE_URLS=http://0.0.0.0:80
-           - ConnectionStrings__ams=${AMS_DB}
+    restart: always
+    ports:
+      - "7608:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ConnectionStrings__ams=${AMS_DB}
 
   planning-reporting-clienthub:
-        ports:
-            - "7900:80"
-        environment:
-           - ASPNETCORE_ENVIRONMENT=Development
-           - ASPNETCORE_URLS=http://0.0.0.0:80
-           - ConnectionStrings__ams=${AMS_DB}
+    restart: always
+    ports:
+      - "7900:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ConnectionStrings__ams=${AMS_DB}
 
   #production planning
   bom-api:
+    restart: always
     ports:
       - "7618:80"
     environment:
@@ -250,6 +272,7 @@ services:
 
   #identity access
   identity-api:
+    restart: always
     ports:
       - "7614:80"
     environment:
@@ -266,6 +289,7 @@ services:
         read_only: false
 
   adminportal:
+    restart: always
     ports:
       - "7615:80"
     environment:
@@ -284,6 +308,7 @@ services:
       - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
             
   identityaccess-emailsender:
+    restart: always
     ports:
       - "7617:80"
     environment:
@@ -300,6 +325,7 @@ services:
 
   #bff
   desktopprojectplanningcomposition:
+    restart: always
     ports:
       - "7701:80"
     environment:
@@ -309,6 +335,7 @@ services:
       - Urls__SalesOrders=http://salesorders-api 
   
   desktopschedulingapigw:
+    restart: always
     volumes:
       - ./Envoy/config/desktopscheduling:/etc/envoy
     ports:
@@ -317,6 +344,7 @@ services:
       - "10000:10000"
 
   clienthub:
+    restart: always
     ports:
       - "7800:80"
     environment:
