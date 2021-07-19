@@ -15,6 +15,11 @@ services:
       - "9300:9300"
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   logstash:
     restart: always
@@ -27,6 +32,11 @@ services:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     depends_on:
       - elasticsearch
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   kibana:
     restart: always
@@ -36,6 +46,11 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
   #data
   eventstore:
     restart: always
@@ -50,7 +65,12 @@ services:
       - type: volume
         source: eslog
         target: /var/log/eventstore
-        read_only: false      
+        read_only: false    
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   #it-ops
   healthmonitor:
@@ -107,6 +127,11 @@ services:
       - HealthChecksUI__HealthChecks__101__Uri=http://desktopprojectplanningcomposition/hc
       - HealthChecksUI__HealthChecks__102__Name=clienthub health check
       - HealthChecksUI__HealthChecks__102__Uri=http://clienthub/hc
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
   
   # help
   ams-help:
@@ -122,6 +147,11 @@ services:
           read_only: false
     working_dir: /app
     command: bash -c "cp -r /usr/share/app/content/ /app/public/ && npm start"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   # authorization
   policyserver:
@@ -132,6 +162,11 @@ services:
       - ConnectionStrings__ams=${AMS_DB}
       - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
        
   policyserver-manager-api:
     restart: always
@@ -142,6 +177,11 @@ services:
       - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
       - CultureCode=${CULTURE_CODE:-de-DE}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
       
   policyserver-manager-userselector-api:
     restart: always
@@ -150,6 +190,11 @@ services:
     environment:
       - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   #project management
   projectmanagement-api:
@@ -162,6 +207,11 @@ services:
       - IdentityServerUrl=http://identity-api
       - ConnectionStrings__ProjectManagement=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   projectmanagement:
     restart: always
@@ -170,6 +220,11 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__ams=${AMS_DB}
       - CultureCode=${CULTURE_CODE:-de-DE}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   projectmanagement-readmodelgenerator:
     restart: always
@@ -178,6 +233,11 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__ams=${AMS_DB}
       - ConnectionStrings__EventStore=${EVENTSTORE_DB:-tcp://admin:changeit@eventstore:1113}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   #collaboration
   collaboration-api:
@@ -189,6 +249,11 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
   
   planning-capacityutilization-api:
     restart: always
@@ -199,6 +264,11 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
     
   planning-typecurve-api:
     restart: always
@@ -209,6 +279,11 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
     
   wage-data-api:
     restart: always
@@ -219,6 +294,11 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
     
   #accounting  
   accounting-api:
@@ -230,6 +310,11 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   projecttracking-clienthub:
     restart: always
@@ -240,6 +325,11 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   accounting-capacitydispatcher:
    restart: always
@@ -250,6 +340,11 @@ services:
      - ASPNETCORE_URLS=http://0.0.0.0:80    
      - ConnectionStrings__ams=${AMS_DB}
      - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+   logging:
+    driver: "json-file"
+    options:
+      max-size: "${LOG_MAX_SIZE:-5m}"
+      max-file: "${LOG_MAX_FILE:-3}"
 
   accounting-integration:
     restart: always
@@ -260,6 +355,11 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   #sales orders
   salesorders-api:
@@ -271,6 +371,11 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   salesorders-integration:
     restart: always
@@ -282,6 +387,11 @@ services:
       - ConnectionStrings__ams=${AMS_DB}
       - CultureCode=${CULTURE_CODE:-de-DE}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   salesorders:
     restart: always
@@ -292,6 +402,11 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   #reporting (multiproject)
   planning-reporting-api:
@@ -303,6 +418,11 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   planning-reporting-clienthub:
     restart: always
@@ -313,6 +433,11 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   #production planning
   bom-api:
@@ -324,6 +449,11 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   #identity access
   identity-api:
@@ -340,6 +470,11 @@ services:
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
     volumes:
       - profilePictures:/app/wwwroot/picture
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   adminportal:
     restart: always
@@ -352,6 +487,11 @@ services:
       - CultureCode=${CULTURE_CODE:-de-DE}
       - IdentityServerUrl=http://identity-api      
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   identityaccess-clienthub:
     restart: always
@@ -362,6 +502,11 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
             
   identityaccess-emailsender:
     restart: always
@@ -379,6 +524,11 @@ services:
       - EmailSettings__Password=${MAIL_PASSWORD}
       - EmailSettings__IsAuthenticationRequired=${MAIL_IS_AUTHENTICATION_REQUIRED}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   #bff
   desktopprojectplanningcomposition:
@@ -391,6 +541,11 @@ services:
       - Urls__ProjectManagement=http://projectmanagement-api
       - Urls__SalesOrders=http://salesorders-api 
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
   
   desktopschedulingapigw:
     restart: always
@@ -400,6 +555,11 @@ services:
       - "5200:80"
       - "15200:8001"
       - "10000:10000"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
 
   clienthub:
     restart: always
@@ -410,6 +570,11 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "${LOG_MAX_SIZE:-5m}"
+        max-file: "${LOG_MAX_FILE:-3}"
             
 volumes:
   esdata:
