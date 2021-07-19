@@ -339,10 +339,7 @@ services:
       - AdminPortalUrl=http://adminportal
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
     volumes:
-      - type: bind
-        source: ./profileImages
-        target: /app/wwwroot/picture
-        read_only: false
+      - profilePictures:/app/wwwroot/picture
 
   adminportal:
     restart: always
@@ -419,3 +416,4 @@ volumes:
   eslog:     
   helpdata:
   elasticsearch-data:
+  profilePictures:
