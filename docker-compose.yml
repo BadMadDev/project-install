@@ -39,7 +39,7 @@ services:
 
   #project management
   projectmanagement-api:
-    image: amssolution/projectmanagement.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: ${REGISTRY:-amssolution}/projectmanagement.api:${PLATFORM:-linux}-${TAG:-latest}
 
   projectmanagement:
     image: ${REGISTRY:-amssolution}/projectmanagement:${PLATFORM:-linux}-${TAG:-latest}
@@ -49,7 +49,7 @@ services:
 
   #collaboration
   collaboration-api:
-    image: amssolution/collaboration.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: ${REGISTRY:-amssolution}/collaboration.api:${PLATFORM:-linux}-${TAG:-latest}
 
   planning-capacityutilization-api:
     image: ${REGISTRY:-amssolution}/planning.capacityutilization.api:${PLATFORM:-linux}-${TAG:-latest}
@@ -62,7 +62,7 @@ services:
   
   #accounting
   accounting-api:
-    image: amssolution/accounting.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: ${REGISTRY:-amssolution}/accounting.api:${PLATFORM:-linux}-${TAG:-latest}
 
   projecttracking-clienthub:
     image: ${REGISTRY:-amssolution}/projecttracking.clienthub:${PLATFORM:-linux}-${TAG:-latest}
