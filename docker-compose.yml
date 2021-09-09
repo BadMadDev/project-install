@@ -2,6 +2,10 @@ version: '3.4'
 
 services:    
 
+  #redis
+  cachedata:
+    image: redis:alpine
+
   # Logging
   elasticsearch:
     build:
