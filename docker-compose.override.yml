@@ -348,8 +348,6 @@ services:
 
   accounting-integration:
     restart: always
-    ports:
-      - "5005:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
