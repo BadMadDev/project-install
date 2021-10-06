@@ -377,6 +377,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__ams=${AMS_DB}
+      - ConnectionStrings__Cache=${REDIS_DB:-cachedata}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
     logging:
       driver: "json-file"
@@ -392,6 +393,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ConnectionStrings__ams=${AMS_DB}
+      - ConnectionStrings__Cache=${REDIS_DB:-cachedata}
       - CultureCode=${CULTURE_CODE:-de-DE}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
     logging:
