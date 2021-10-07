@@ -180,7 +180,7 @@ static_resources:
     lb_policy: round_robin
     hosts:
     - socket_address:
-        address: sales-api
+        address: salesorders-api
         port_value: 80
   - name: capacityutilization
     connect_timeout: 0.25s
