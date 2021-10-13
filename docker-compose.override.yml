@@ -477,8 +477,14 @@ services:
       - IdentityServerUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:7614
       - AdminPortalUrl=http://adminportal
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
+      - CertificatePath=${IDENTITY_ACCESS_CERT_PATH:-/etc/ssl/certs/identity-api.pfx}
+      - CertificatePassword=${IDENTITY_ACCESS_CERT_PASSWORD:-P@ssw0rd!}
     volumes:
       - profilePictures:/app/wwwroot/picture
+      - type: bind
+        source: ./certs
+        target: /etc/ssl/certs
+        read_only: true
     logging:
       driver: "json-file"
       options:
@@ -538,6 +544,11 @@ services:
       options:
         max-size: "${LOG_MAX_SIZE:-5m}"
         max-file: "${LOG_MAX_FILE:-3}"
+    volumes: 
+      - type: bind
+        source: ./certs
+        target: /etc/ssl/certs
+        read_only: false 
 
   #bff
   desktopprojectplanningcomposition:
