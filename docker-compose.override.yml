@@ -206,10 +206,15 @@ services:
   projectmanagement-api:
     restart: always
     environment:
+    environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
+      - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+      - ExitOnCriticalError=${EXIT_ON_CRITICAL_ERROR:-false}
       - IdentityServerUrl=http://identity-api
-      - ConnectionStrings__ProjectManagement=${AMS_DB}
+      - ConnectionStrings__ProjectManagement=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
+      - ConnectionStrings__Cache=${REDIS_DB:-cachedata}
+      - ConnectionStrings__EventStore=${EVENTSTORE_DB:-tcp://admin:changeit@eventstore:1113}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
     logging:
       driver: "json-file"
@@ -222,8 +227,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - ConnectionStrings__ams=${AMS_DB}
+      - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
       - CultureCode=${CULTURE_CODE:-de-DE}
+      - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
     logging:
       driver: "json-file"
       options:
@@ -235,8 +242,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
-      - ConnectionStrings__ams=${AMS_DB}
+      - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+      - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
       - ConnectionStrings__EventStore=${EVENTSTORE_DB:-tcp://admin:changeit@eventstore:1113}
+      - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
     logging:
       driver: "json-file"
       options:
