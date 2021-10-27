@@ -21,7 +21,7 @@ services:
 
   #data
   eventstore:
-    image: eventstore/eventstore:release-5.0.8
+    image: eventstore/eventstore:release-5.0.11
 
   #it-ops
   healthmonitor:
@@ -113,7 +113,7 @@ services:
 
   ##bff
   desktopschedulingapigw:
-    image: envoyproxy/envoy:v1.11.1
+    image: ${REGISTRY:-amssolution}/desktopschedulingapigw:${PLATFORM:-linux}-${TAG:-latest}
 
   desktopprojectplanningcomposition:
     image: ${REGISTRY:-amssolution}/desktop.projectplanning.compositiongateway:${PLATFORM:-linux}-${TAG:-latest}
