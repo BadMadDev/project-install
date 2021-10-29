@@ -95,7 +95,7 @@ services:
       - HealthChecksUI__HealthChecks__3__Uri=http://identityaccess-emailsender/hc
       - HealthChecksUI__HealthChecks__4__Name=Collaboration health check
       - HealthChecksUI__HealthChecks__4__Uri=http://collaboration-api/hc
-      - HealthChecksUI__HealthChecks__5__Name=Projectmanagement health check
+      - HealthChecksUI__HealthChecks__5__Name=Projectmanagement api health check
       - HealthChecksUI__HealthChecks__5__Uri=http://projectmanagement-api/hc
       - HealthChecksUI__HealthChecks__6__Name=policyserver health check
       - HealthChecksUI__HealthChecks__6__Uri=http://policyserver/hc
@@ -127,6 +127,10 @@ services:
       - HealthChecksUI__HealthChecks__19__Uri=http://wage-data-api/hc   
       - HealthChecksUI__HealthChecks__20__Name=bill of material health check
       - HealthChecksUI__HealthChecks__20__Uri=http://bom-api/hc  
+      - HealthChecksUI__HealthChecks__21__Name=projectmanagement health check
+      - HealthChecksUI__HealthChecks__21__Uri=http://projectmanagement/hc   
+      - HealthChecksUI__HealthChecks__22__Name=readmodelgenerator health check
+      - HealthChecksUI__HealthChecks__22__Uri=http://projectmanagement-readmodelgenerator/hc   
         #destkopclient bff
       - HealthChecksUI__HealthChecks__101__Name=desktopprojectplanningcomposition health check
       - HealthChecksUI__HealthChecks__101__Uri=http://desktopprojectplanningcomposition/hc
