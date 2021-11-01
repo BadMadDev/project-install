@@ -70,7 +70,11 @@ services:
       - type: volume
         source: eslog
         target: /var/log/eventstore
-        read_only: false    
+        read_only: false  
+      - type: volume
+        source: esindex
+        target: /var/lib/eventstore-index
+        read_only: false  
     logging:
       driver: "json-file"
       options:
@@ -571,6 +575,7 @@ services:
 volumes:
   esdata:
   eslog:     
+  esindex:
   helpdata:
   elasticsearch-data:
   profilePictures:
