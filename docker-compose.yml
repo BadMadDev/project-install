@@ -44,6 +44,8 @@ services:
   #project management
   projectmanagement-api:
     image: ${REGISTRY:-amssolution}/projectmanagement.api:${PLATFORM:-linux}-${TAG:-latest}
+    depends_on:
+      - cachedata
 
   projectmanagement:
     image: ${REGISTRY:-amssolution}/projectmanagement:${PLATFORM:-linux}-${TAG:-latest}
@@ -67,6 +69,8 @@ services:
   #accounting
   accounting-api:
     image: ${REGISTRY:-amssolution}/accounting.api:${PLATFORM:-linux}-${TAG:-latest}
+    depends_on:
+      - cachedata
 
   projecttracking-clienthub:
     image: ${REGISTRY:-amssolution}/projecttracking.clienthub:${PLATFORM:-linux}-${TAG:-latest}
@@ -80,9 +84,13 @@ services:
   #sales orders
   salesorders-api:
     image: ${REGISTRY:-amssolution}/salesorders.api:${PLATFORM:-linux}-${TAG:-latest}
+    depends_on:
+      - cachedata
 
   salesorders-integration:
     image: ${REGISTRY:-amssolution}/salesorders.integration:${PLATFORM:-linux}-${TAG:-latest}
+    depends_on:
+      - cachedata
 
   salesorders:
     image: ${REGISTRY:-amssolution}/salesorders:${PLATFORM:-linux}-${TAG:-latest}
