@@ -1,16 +1,7 @@
 version: '3.4'
 
 services:
- 
-  #redis
-  cachedata:
-    restart: always
-    command: redis-server --include /usr/local/etc/redis/redis.conf
-    volumes:
-      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
-      - ./redis/data:/data
-
-  # Logging
+  #elk
   elasticsearch:
     restart: always
     volumes:
@@ -56,6 +47,15 @@ services:
       options:
         max-size: "${LOG_MAX_SIZE:-5m}"
         max-file: "${LOG_MAX_FILE:-3}"
+
+  #redis
+  cachedata:
+    restart: always
+    command: redis-server --include /usr/local/etc/redis/redis.conf
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/data:/data
+      
   #data
   eventstore:
     restart: always
@@ -146,7 +146,7 @@ services:
         max-size: "${LOG_MAX_SIZE:-5m}"
         max-file: "${LOG_MAX_FILE:-3}"
   
-  # help
+  #help
   ams-help:
     restart: always
     ports: 
@@ -166,7 +166,7 @@ services:
         max-size: "${LOG_MAX_SIZE:-5m}"
         max-file: "${LOG_MAX_FILE:-3}"
 
-  # authorization
+  #authorization
   policyserver:
     restart: always
     environment:
@@ -211,7 +211,6 @@ services:
   projectmanagement-api:
     restart: always
     environment:
-    environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
@@ -233,6 +232,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+      - ExitOnCriticalError=${EXIT_ON_CRITICAL_ERROR:-false}
       - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
       - CultureCode=${CULTURE_CODE:-de-DE}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
@@ -248,6 +248,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
       - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+      - ExitOnCriticalError=${EXIT_ON_CRITICAL_ERROR:-false}
       - ConnectionStrings__ams=${AMS_DB:-Server=sqldev2012.ams.local,1433;Database=dev-amsprojekt;User ID=projectuser;Password=projectuser;Max Pool Size=100}
       - ConnectionStrings__EventStore=${EVENTSTORE_DB:-tcp://admin:changeit@eventstore:1113}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
@@ -302,6 +303,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+      - ExitOnCriticalError=${EXIT_ON_CRITICAL_ERROR:-false}
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
     logging:
@@ -316,6 +319,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
+      - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+      - ExitOnCriticalError=${EXIT_ON_CRITICAL_ERROR:-false}
       - ConnectionStrings__ams=${AMS_DB}
       - ConnectionStrings__Cache=${REDIS_DB:-cachedata}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
@@ -343,6 +348,8 @@ services:
    environment:
      - ASPNETCORE_ENVIRONMENT=Development
      - ASPNETCORE_URLS=http://0.0.0.0:80    
+     - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+     - ExitOnCriticalError=${EXIT_ON_CRITICAL_ERROR:-false}
      - ConnectionStrings__ams=${AMS_DB}
      - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
    logging:
@@ -356,6 +363,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
+      - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+      - ExitOnCriticalError=${EXIT_ON_CRITICAL_ERROR:-false}
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
     logging:
@@ -370,6 +379,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
+      - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+      - ExitOnCriticalError=${EXIT_ON_CRITICAL_ERROR:-false}
       - ConnectionStrings__ams=${AMS_DB}
       - ConnectionStrings__Cache=${REDIS_DB:-cachedata}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
@@ -384,6 +395,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
+      - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+      - ExitOnCriticalError=${EXIT_ON_CRITICAL_ERROR:-false}
       - ConnectionStrings__ams=${AMS_DB}
       - ConnectionStrings__Cache=${REDIS_DB:-cachedata}
       - CultureCode=${CULTURE_CODE:-de-DE}
@@ -399,6 +412,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
+      - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+      - ExitOnCriticalError=${EXIT_ON_CRITICAL_ERROR:-false}
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
     logging:
@@ -413,6 +428,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+      - ExitOnCriticalError=${EXIT_ON_CRITICAL_ERROR:-false}
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
     logging:
@@ -426,6 +443,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+      - ExitOnCriticalError=${EXIT_ON_CRITICAL_ERROR:-false}
       - ConnectionStrings__ams=${AMS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
     logging:
@@ -456,9 +475,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
+      - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+      - ExitOnCriticalError=${EXIT_ON_CRITICAL_ERROR:-false}
       - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
       - CultureCode=${CULTURE_CODE:-de-DE}      
-      - IdentityServerUrl=http://identity-api
+      - IdentityServerUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:7614
       - AdminPortalUrl=http://adminportal
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
       - CertificatePath=${IDENTITY_ACCESS_CERT_PATH:-/etc/ssl/certs/identity-api.pfx}
@@ -484,7 +505,7 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:80 
       - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
       - CultureCode=${CULTURE_CODE:-de-DE}
-      - IdentityServerUrl=http://identity-api      
+      - IdentityServerUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:7614      
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
     logging:
       driver: "json-file"
@@ -499,6 +520,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
+      - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+      - ExitOnCriticalError=${EXIT_ON_CRITICAL_ERROR:-false}
       - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
       - Serilog__LogstashUrl=http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:8080
     logging:
@@ -512,6 +535,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80    
+      - ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker=${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER:-120}
+      - ExitOnCriticalError=${EXIT_ON_CRITICAL_ERROR:-false}
       - ConnectionStrings__IdentityAccess=${IDENTITY_ACCESS_DB}
       - CultureCode=${CULTURE_CODE} 
       - EmailSettings__MailServer=${MAIL_SERVER}
